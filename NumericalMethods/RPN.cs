@@ -19,8 +19,8 @@ namespace NumericalMethods
             //remove all whitespace from input
             input = new(input.Where(x => !char.IsWhiteSpace(x)).ToArray());
 
-            //split on "^", "/" and "(" to "-" (all operators used in this program)
-            return Regex.Split(input, @"(\^|/|[\(-\-])").Where(x => !string.IsNullOrWhiteSpace(x));
+            //split on brackets and all operators used in program
+            return Regex.Split(input, @"(\(|\)|\^|\+|-|\*|/)").Where(x => !string.IsNullOrWhiteSpace(x));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace NumericalMethods
             foreach (string token in tokens)
             {
                 //if the token is a number, simply add to queue
-                if (int.TryParse(token, out int number))
+                if (double.TryParse(token, out double number))
                     outQueue.Enqueue(new Value(number));
 
                 //if the token is an operator

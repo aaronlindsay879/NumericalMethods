@@ -48,6 +48,8 @@ namespace NumericalMethods.Data
 
         //functions
         [OpInfo(5, "sin", 1)] Sin,
+        [OpInfo(5, "cos", 1)] Cos,
+        [OpInfo(5, "tan", 1)] Tan,
         [OpInfo(5, "sqrt", 1)] Sqrt,
         [OpInfo(5, "neg", 1)] Neg,
         [OpInfo(5, "ln", 1)] Ln
@@ -106,6 +108,8 @@ namespace NumericalMethods.Data
                 {
                     Operators.Neg => -inputs[0],
                     Operators.Sin => Math.Sin(inputs[0]),
+                    Operators.Cos => Math.Cos(inputs[0]),
+                    Operators.Tan => Math.Tan(inputs[0]),
                     Operators.Sqrt => Math.Sqrt(inputs[0]),
                     Operators.Ln => Math.Log(inputs[0]),
                     _ => default
