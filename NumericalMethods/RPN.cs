@@ -65,6 +65,7 @@ namespace NumericalMethods
                     opStack.Pop();
                 }
 
+                //otherwise, assume it's a variable
                 else
                     outQueue.Enqueue(new Variable(token));
             }
@@ -74,6 +75,50 @@ namespace NumericalMethods
                 outQueue.Enqueue(opStack.Pop());
 
             return outQueue;
+        }
+
+        /// <summary>
+        /// Parses a variable, replacing with either known value or constant
+        /// </summary>
+        /// <param name="var">Variable to parse</param>
+        /// <param name="variableValue">Variable value to sub in, if using x variable</param>
+        /// <returns>Value to push onto stack</returns>
+        private static Value ParseVariable(Variable var, double variableValue)
+        {
+            Value variableVal;
+
+            //if the variable is x, replace with value given when function called
+            //otherwise lookup value of variable
+            if (var.Symbol == "x")
+                variableVal = new Value(variableValue);
+            else
+                variableVal = new Value(var.GetValue() ?? 0d);
+
+            //then return to be pushed onto stack
+            return variableVal;
+        }
+
+        /// <summary>
+        /// Parses an operator by "squashing" elements below it. For example, 2 3 + will be "squashed" into 5
+        /// </summary>
+        /// <param name="op">Operator to use</param>
+        /// <param name="workStack">Stack to work upon</param>
+        /// <returns>Single value to push onto stack</returns>
+        private static Value ParseOperator(Operator op, ref Stack<Element> workStack)
+        {
+            //if the element is an operator, get one or two values from the work stack
+            List<double> values = new();
+
+            int numInputs = Math.Min(2, op.Op.Inputs());
+            while (workStack.Count > 0
+                && values.Count < numInputs
+                && workStack.Peek().GetType() == typeof(Value))
+            {
+                values.Add((workStack.Pop() as Value).Val);
+            }
+
+            //then "squash" those values with the operator to create a new value, which is returned and then pushed to work stack
+            return new Value(op.SquashInput(values.ToArray()));
         }
 
         /// <summary>
@@ -93,39 +138,14 @@ namespace NumericalMethods
                 //take the top element
                 Element elem = workQueue.Dequeue();
 
-                //if the element is a value, simply push to work stack
-                if (elem is Value val)
-                    workStack.Push(val);
-                else if (elem is Variable var)
+                //then push an element onto the stack depending on it's type
+                workStack.Push(elem switch
                 {
-                    Value variableVal;
-
-                    //if the variable is x, replace with value given when function called
-                    //otherwise lookup value of variable
-                    if (var.Symbol == "x")
-                        variableVal = new Value(variableValue);
-                    else
-                        variableVal = new Value(var.GetValue() ?? 0d);
-
-                    //then push to stack
-                    workStack.Push(variableVal);
-                }
-                else if (elem is Operator op)
-                {
-                    //if the element is an operator, get one or two values from the work stack
-                    List<double> values = new();
-
-                    int numInputs = Math.Min(2, op.Op.Inputs());
-                    while (workStack.Count > 0
-                        && values.Count < numInputs
-                        && workStack.Peek().GetType() == typeof(Value))
-                    {
-                        values.Add((workStack.Pop() as Value).Val);
-                    }
-
-                    //then "squash" those values with the operator to create a new value, which is pushed to work stack
-                    workStack.Push(new Value(op.SquashInput(values.ToArray())));
-                }
+                    Value val => val,
+                    Variable var => ParseVariable(var, variableValue),
+                    Operator op => ParseOperator(op, ref workStack),
+                    _ => null
+                });
             }
 
             //once only one item remains, return the value of it
