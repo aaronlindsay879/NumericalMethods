@@ -52,7 +52,8 @@ namespace NumericalMethods.Data
         [OpInfo(5, "tan", 1)] Tan,
         [OpInfo(5, "sqrt", 1)] Sqrt,
         [OpInfo(5, "neg", 1)] Neg,
-        [OpInfo(5, "ln", 1)] Ln
+        [OpInfo(5, "ln", 1)] Ln,
+        [OpInfo(5, "abs", 1)] Abs
     }
 
     /// <summary>
@@ -112,6 +113,7 @@ namespace NumericalMethods.Data
                     Operators.Tan => Math.Tan(inputs[0]),
                     Operators.Sqrt => Math.Sqrt(inputs[0]),
                     Operators.Ln => Math.Log(inputs[0]),
+                    Operators.Abs => Math.Abs(inputs[0]),
                     _ => default
                 };
 
@@ -140,9 +142,10 @@ namespace NumericalMethods.Data
         {
             operators = new();
 
+            //loop through all enum elements, comparing symbol to (lowercase) string until a match is found
             foreach (Operators enumElement in Enum.GetValues(typeof(Operators)))
             {
-                if (enumElement.Symbol() == str)
+                if (enumElement.Symbol() == str.ToLower())
                 {
                     operators = enumElement;
                     return true;
