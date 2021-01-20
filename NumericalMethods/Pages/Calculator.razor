@@ -1,0 +1,29 @@
+﻿@page "/"
+@using NumericalMethods.Data 
+
+<form action="javascript:void(0);">
+    <label for="function">Function to calculate:</label>
+    <input @bind-value="@input" id="function" />
+    <br />
+
+    <label for="x">Value for x:</label>
+    <input type="number" step="any" @bind-value="@x" id="x" />
+    <br />
+
+    <button @onclick="@Calculate" type="submit">Calculate</button>
+</form>
+<p style="white-space:pre-line">@output</p>
+
+@code {
+    string input = "";
+    string output = "";
+
+    double x;
+
+    private void Calculate()
+    {
+        Queue<Element> elements = RPN.SYA(input);
+
+        output = RPN.Compute(elements, x).ToString();
+    }
+} 

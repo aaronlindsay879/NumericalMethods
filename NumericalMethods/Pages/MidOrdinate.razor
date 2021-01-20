@@ -1,0 +1,47 @@
+﻿@page "/midordinate"
+@using NumericalMethods.Data
+
+<form action="javascript:void(0);">
+    <label for="function">Function to integrate:</label>
+    <input @bind-value="@input" id="function" />
+    <br />
+
+    <label for="lowerBound">Lower bound:</label>
+    <input type="number" step="any" @bind-value="@lowerBound" id="lowerBound" />
+    <br />
+
+    <label for="upperBound">Upper bound:</label>
+    <input type="number" step="any" @bind-value="@upperBound" id="upperBound" />
+    <br />
+
+    <label for="numOrdinates">Number of ordinates:</label>
+    <input type="number" min="1" @bind-value="@numOrdinates" id="numOrdinates" />
+    <br />
+
+    <button @onclick="@Calculate" type="submit">Calculate</button>
+</form>
+<p style="white-space:pre-line">@output</p>
+
+@code {
+    string input = "";
+    string output = "";
+
+    double lowerBound;
+    double upperBound;
+    int numOrdinates = 1;
+
+    private void Calculate()
+    {
+        Queue<Element> elements = RPN.SYA(input);
+
+        double h = (upperBound - lowerBound) / numOrdinates;
+        double sum = 0;
+
+        for (double i = lowerBound; i < upperBound; i += h)
+            sum += RPN.Compute(elements, i + h / 2);
+
+        sum *= h;
+
+        output = sum.ToString();
+    }
+} 
