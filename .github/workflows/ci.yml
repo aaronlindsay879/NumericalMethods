@@ -1,0 +1,37 @@
+name: 'Publish application'
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        # Checkout the code
+        - name: Checkout
+          uses: actions/checkout@v2.3.1
+
+        # Install .NET Core SDK
+        - name: Setup .NET Core SDK
+          uses: actions/setup-dotnet@v1.7.2
+          with:
+            dotnet-version: 5.0.x
+
+        # Run tests
+        - name: Test
+          run: dotnet test
+
+        # Generate the website
+        - name: Publish
+          run: |
+            cp NumericalMethods/wwwroot/index.html NumericalMethods/wwwroot/404.html
+            dotnet publish NumericalMethods/NumericalMethods.csproj --configuration Release
+        # Publish the website
+        - name: GitHub Pages action
+          if: ${{ github.ref == 'refs/heads/master' }} # Publish only when the push is on master
+          uses: peaceiris/actions-gh-pages@v3.6.1
+          with:
+            github_token: ${{ secrets.PUBLISH_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: NumericalMethods/bin/Release/net5.0/publish/wwwroot
+            allow_empty_commit: false
+            keep_files: false
+            force_orphan: true
