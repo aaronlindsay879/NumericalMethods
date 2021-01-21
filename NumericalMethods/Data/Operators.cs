@@ -13,7 +13,7 @@ namespace NumericalMethods.Data
     public class OpInfo : Attribute
     {
         public int Precedence { get; init; }
-        public string Symbol { get; init; }
+        public string[] Symbols { get; init; }
         public int Inputs { get; init; }
 
         /// <summary>
@@ -22,10 +22,10 @@ namespace NumericalMethods.Data
         /// <param name="precedence">The precedence of the operator - higher has a higher priority</param>
         /// <param name="symbol">The symbol used to represent the operator</param>
         /// <param name="inputs">The number of inputs for a function</param>
-        public OpInfo(int precedence, string symbol, int inputs)
+        public OpInfo(int precedence, int inputs, params string[] symbols)
         {
             Precedence = precedence;
-            Symbol = symbol;
+            Symbols = symbols;
             Inputs = inputs;
         }
     }
@@ -36,24 +36,24 @@ namespace NumericalMethods.Data
     public enum Operators
     {
         //normal operators
-        [OpInfo(4, "^", 2)] Power,
-        [OpInfo(3, "*", 2)] Multiply,
-        [OpInfo(3, "/", 2)] Divide,
-        [OpInfo(2, "+", 2)] Plus,
-        [OpInfo(2, "-", 2)] Subtract,
+        [OpInfo(4, 2, "^")] Power,
+        [OpInfo(3, 2, "*")] Multiply,
+        [OpInfo(3, 2, "/")] Divide,
+        [OpInfo(2, 2, "+")] Plus,
+        [OpInfo(2, 2, "-")] Subtract,
 
         //special operators
-        [OpInfo(0, "(", 2)] LeftBracket,
-        [OpInfo(0, ")", 0)] RightBracket,
+        [OpInfo(0, 0, "(")] LeftBracket,
+        [OpInfo(0, 0, ")")] RightBracket,
 
         //functions
-        [OpInfo(5, "sin", 1)] Sin,
-        [OpInfo(5, "cos", 1)] Cos,
-        [OpInfo(5, "tan", 1)] Tan,
-        [OpInfo(5, "sqrt", 1)] Sqrt,
-        [OpInfo(5, "neg", 1)] Neg,
-        [OpInfo(5, "ln", 1)] Ln,
-        [OpInfo(5, "abs", 1)] Abs
+        [OpInfo(5, 1, "sin")] Sin,
+        [OpInfo(5, 1, "cos")] Cos,
+        [OpInfo(5, 1, "tan")] Tan,
+        [OpInfo(5, 1, "sqrt")] Sqrt,
+        [OpInfo(5, 1, "neg")] Neg,
+        [OpInfo(5, 1, "ln")] Ln,
+        [OpInfo(5, 1, "abs")] Abs
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ namespace NumericalMethods.Data
         /// </summary>
         /// <param name="operators">Operator to find symbol for</param>
         /// <returns>Symbol</returns>
-        public static string Symbol(this Operators operators) => operators.GetOpInfo().Symbol;
+        public static string[] Symbol(this Operators operators) => operators.GetOpInfo().Symbols;
 
         /// <summary>
         /// Finds the inputs for a given operator
@@ -145,7 +145,7 @@ namespace NumericalMethods.Data
             //loop through all enum elements, comparing symbol to (lowercase) string until a match is found
             foreach (Operators enumElement in Enum.GetValues(typeof(Operators)))
             {
-                if (enumElement.Symbol() == str.ToLower())
+                if (enumElement.Symbol().Contains(str.ToLower()))
                 {
                     operators = enumElement;
                     return true;
