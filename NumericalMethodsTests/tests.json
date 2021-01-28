@@ -166,5 +166,45 @@
             "input": [ "neg(5) * cos(x) + tan(pi)/ln(e)", 2.5 ],
             "output": 4.005718078
         }
+    ],
+    "MidOrdinateTests": [
+        {
+            "input": [ 0, 2, 4, "2^x" ],
+            "output": 4.306499918
+        },
+        {
+            "input": [ 0, 2, 8, "2^x" ],
+            "output": 4.322674649
+        },
+        {
+            "input": [ 0, 1, 4, "1/(1+x^2)" ],
+            "output": 0.7867001296
+        },
+        {
+            "input": [ 0, 4, 4, "x * sqrt(x^2 + 9)" ],
+            "output": 32.44885848
+        },
+        {
+            "input": [ 4, 0, 4, "x * sqrt(x^2 + 9)" ],
+            "output": null
+        }
+    ],
+    "SimpsonsTests": [
+        {
+            "input": [ 0, 2, 4, "2^x" ],
+            "output": 4.328106726
+        },
+        {
+            "input": [ 2, 4, 2, "3 * ln(x)" ],
+            "output": 6.473890696
+        },
+        {
+            "input": [ 0, 1, 4, "4/(1+x^2)" ],
+            "output": 3.141592502
+        },
+        {
+            "input": [ 1, 0, 4, "4/(1+x^2)" ],
+            "output": null
+        }
     ]
 }
