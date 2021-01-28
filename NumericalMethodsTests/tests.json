@@ -80,5 +80,31 @@
             "inputs": [ "pi" ],
             "output": 3.141592654
         }
+    ],
+    "SYATests": [
+        {
+            "inputs": [ "1 + 2" ],
+            "output": "1 2 +"
+        },
+        {
+            "inputs": [ "4 / 7" ],
+            "output": "4 7 /"
+        },
+        {
+            "inputs": [ "sin(5 * 2)" ],
+            "output": "5 2 * sin"
+        },
+        {
+            "inputs": [ "cos(7 - 2/3)" ],
+            "output": "7 2 3 / - cos"
+        },
+        {
+            "inputs": [ "5 + cos(2/3) * sin(3/2)" ],
+            "output": "5 2 3 / cos 3 2 / sin * +"
+        },
+        {
+            "inputs": [ "neg(-5) * cos(5) + tan(pi)/ln(e)" ],
+            "output": "-5 neg 5 cos * pi tan e ln / +"
+        }
     ]
 }
