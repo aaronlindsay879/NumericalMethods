@@ -81,16 +81,16 @@ namespace NumericalMethods
         /// Parses a variable, replacing with either known value or constant
         /// </summary>
         /// <param name="var">Variable to parse</param>
-        /// <param name="variableValue">Variable value to sub in, if using x variable</param>
+        /// <param name="variableValue"s>Variable values to sub in, along with their identifiers</param>
         /// <returns>Value to push onto stack</returns>
-        private static Value ParseVariable(Variable var, double variableValue)
+        private static Value ParseVariable(Variable var, (string, double)[] variableValues)
         {
             Value variableVal;
 
-            //if the variable is x, replace with value given when function called
+            //check for all passed variables, replace with value if found
             //otherwise lookup value of variable
-            if (var.Symbol == "x")
-                variableVal = new Value(variableValue);
+            if (variableValues.Any(x => x.Item1 == var.Symbol))
+                variableVal = new Value(variableValues.First(x => x.Item1 == var.Symbol).Item2);
             else
                 variableVal = new Value(var.GetValue() ?? 0d);
 
@@ -125,8 +125,9 @@ namespace NumericalMethods
         /// Computes the value of a parsed expression
         /// </summary>
         /// <param name="elements">Parsed expression</param>
+        /// <param name="variableValues">Tuples of (variableIdentifier, variableValue) to allow values to be assigned to various variables</param>
         /// <returns>Value</returns>
-        public static double Compute(Queue<Element> elements, double variableValue = 0)
+        public static double Compute(Queue<Element> elements, params (string, double)[] variableValues)
         {
             //generate a copy of the input queue to work on, and create a workstack
             Queue<Element> workQueue = new(elements);
@@ -142,7 +143,7 @@ namespace NumericalMethods
                 workStack.Push(elem switch
                 {
                     Value val => val,
-                    Variable var => ParseVariable(var, variableValue),
+                    Variable var => ParseVariable(var, variableValues),
                     Operator op => ParseOperator(op, ref workStack),
                     _ => null
                 });

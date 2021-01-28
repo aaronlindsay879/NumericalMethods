@@ -35,7 +35,7 @@ namespace NumericalMethods.Tests
                     elements.Enqueue(new Variable(token));
             }
 
-            double value = RPN.Compute(elements, xValue);
+            double value = RPN.Compute(elements, ("x", xValue));
             Assert.AreEqual(expected, value, 1e-6);
         }
 
@@ -44,7 +44,7 @@ namespace NumericalMethods.Tests
         {
             Queue<Element> calculated = RPN.SYA(input);
 
-            Assert.AreEqual(expected, RPN.Compute(calculated, xValue), 1e-6);
+            Assert.AreEqual(expected, RPN.Compute(calculated, ("x", xValue)), 1e-6);
         }
     }
 }

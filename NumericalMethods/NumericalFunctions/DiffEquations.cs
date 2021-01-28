@@ -12,7 +12,7 @@ namespace NumericalMethods.NumericalFunctions
         {
             for (int i = iterations; i > 0; i--)
             {
-                y += step * RPN.Compute(elements, x);
+                y += step * RPN.Compute(elements, ("x", x), ("y", y));
                 x += step;
             }
 

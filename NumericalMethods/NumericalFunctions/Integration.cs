@@ -17,7 +17,7 @@ namespace NumericalMethods.NumericalFunctions
             double sum = 0;
 
             for (double i = lowerBound; i < upperBound; i += h)
-                sum += RPN.Compute(elements, i + h / 2);
+                sum += RPN.Compute(elements, ("x", i + h / 2));
 
             sum *= h;
 
@@ -31,18 +31,16 @@ namespace NumericalMethods.NumericalFunctions
 
             double h = (upperBound - lowerBound) / numOrdinates;
 
-            double firstSum = RPN.Compute(elements, lowerBound) + RPN.Compute(elements, upperBound);
+            double firstSum = RPN.Compute(elements, ("x", lowerBound)) + RPN.Compute(elements, ("x", upperBound));
             double secondSum = 0;
             double thirdSum = 0;
-            double sum = 0;
-
             for (double i = lowerBound + h; i < upperBound; i += 2 * h)
-                secondSum += RPN.Compute(elements, i);
+                secondSum += RPN.Compute(elements, ("x", i));
 
             for (double i = lowerBound + 2 * h; i < upperBound; i += 2 * h)
-                thirdSum += RPN.Compute(elements, i);
+                thirdSum += RPN.Compute(elements, ("x", i));
 
-            sum = firstSum + 4 * secondSum + 2 * thirdSum;
+            double sum = firstSum + 4 * secondSum + 2 * thirdSum;
             sum *= h / 3;
 
             return sum;
