@@ -1,5 +1,6 @@
 ﻿@page "/midordinate"
-@using NumericalMethods.Data
+@using Data
+@using NumericalFunctions
 
 <form action="javascript:void(0);">
     <label for="function">Function to integrate:</label>
@@ -33,15 +34,8 @@
     private void Calculate()
     {
         Queue<Element> elements = RPN.SYA(input);
+        double? value = Integration.MidOrdinate(elements, lowerBound, upperBound, numOrdinates);
 
-        double h = (upperBound - lowerBound) / numOrdinates;
-        double sum = 0;
-
-        for (double i = lowerBound; i < upperBound; i += h)
-            sum += RPN.Compute(elements, i + h / 2);
-
-        sum *= h;
-
-        output = sum.ToString();
+        output = value.HasValue ? value.ToString() : "Lower bound is higher than upper bound";
     }
 } 
