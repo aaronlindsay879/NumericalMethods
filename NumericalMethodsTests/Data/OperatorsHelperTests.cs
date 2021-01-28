@@ -9,14 +9,20 @@ using System.Threading.Tasks;
 
 namespace NumericalMethods.Data.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class OperatorsHelperTests
     {
-        [TestMethod()]
-        [JsonDataSource("Data/operatorsSquashInput.json")]
-        public void SquashInputTest(double expected, Operators op, params double[] inputs)
+        [TestMethod, JsonDataSource]
+        public void SquashInputTests(double expected, Operators op, params double[] inputs)
         {
             Assert.AreEqual(expected, op.SquashInput(inputs));
+        }
+
+        [TestMethod, JsonDataSource]
+        public void TryParseTests(Operators expected, string input)
+        {
+            OperatorsHelper.TryParse(input, out var op);
+            Assert.AreEqual(expected, op);
         }
     }
 }
