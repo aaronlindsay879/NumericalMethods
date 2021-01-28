@@ -41,6 +41,6 @@
         Queue<Element> elements = RPN.SYA(input);
         double value = DiffEquations.Eulers(elements, step, x, y, numIterations);
 
-        output = $"y({y + numIterations * step}) = {value.ToString()}";
+        output = $"y({x + numIterations * step}) = {value.ToString()}";
     }
 } 
