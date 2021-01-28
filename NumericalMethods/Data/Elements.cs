@@ -36,7 +36,7 @@ namespace NumericalMethods.Data
         /// <returns>Single value</returns>
         public double SquashInput(double[] inputs) => Op.SquashInput(inputs);
 
-        public override string ToString() => Op.Symbol().ToString();
+        public override string ToString() => Op.Symbols().First();
     }
 
     /// <summary>

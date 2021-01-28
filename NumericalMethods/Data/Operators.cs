@@ -86,7 +86,7 @@ namespace NumericalMethods.Data
         /// </summary>
         /// <param name="operators">Operator to find symbol for</param>
         /// <returns>Symbol</returns>
-        public static string[] Symbol(this Operators operators) => operators.GetOpInfo().Symbols;
+        public static string[] Symbols(this Operators operators) => operators.GetOpInfo().Symbols;
 
         /// <summary>
         /// Finds the inputs for a given operator
@@ -145,7 +145,7 @@ namespace NumericalMethods.Data
             //loop through all enum elements, comparing symbol to (lowercase) string until a match is found
             foreach (Operators enumElement in Enum.GetValues(typeof(Operators)))
             {
-                if (enumElement.Symbol().Contains(str.ToLower()))
+                if (enumElement.Symbols().Contains(str.ToLower()))
                 {
                     operators = enumElement;
                     return true;

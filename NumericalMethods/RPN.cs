@@ -151,5 +151,16 @@ namespace NumericalMethods
             //once only one item remains, return the value of it
             return (workStack.Pop() as Value).Val;
         }
+
+        public static string ToString(Queue<Element> elements)
+        {
+            Queue<Element> elemCopy = new(elements);
+            string output = elemCopy.Dequeue().ToString();
+
+            while (elemCopy.Count > 0)
+                output += $" {elemCopy.Dequeue()}";
+
+            return output;
+        }
     }
 }
