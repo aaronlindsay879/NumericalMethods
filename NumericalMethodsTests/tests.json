@@ -1,109 +1,109 @@
 {
     "SquashInputTests": [
         {
-            "inputs": [ "Power", 4, 2 ],
+            "input": [ "Power", 4, 2 ],
             "output": 16
         },
         {
-            "inputs": [ "Power", -3, 2 ],
+            "input": [ "Power", -3, 2 ],
             "output": 0.125
         },
         {
-            "inputs": [ "Multiply", 2, 5 ],
+            "input": [ "Multiply", 2, 5 ],
             "output": 10
         },
         {
-            "inputs": [ "Multiply", 20, -1.28 ],
+            "input": [ "Multiply", 20, -1.28 ],
             "output": -25.6
         },
         {
-            "inputs": [ "Divide", 2, 5 ],
+            "input": [ "Divide", 2, 5 ],
             "output": 2.5
         },
         {
-            "inputs": [ "Divide", -20, 5 ],
+            "input": [ "Divide", -20, 5 ],
             "output": -0.25
         },
         {
-            "inputs": [ "Plus", 2, 1 ],
+            "input": [ "Plus", 2, 1 ],
             "output": 3
         },
         {
-            "inputs": [ "Plus", 20, -5 ],
+            "input": [ "Plus", 20, -5 ],
             "output": 15
         },
         {
-            "inputs": [ "Subtract", 2, 1 ],
+            "input": [ "Subtract", 2, 1 ],
             "output": -1
         },
         {
-            "inputs": [ "Subtract", -20, 5 ],
+            "input": [ "Subtract", -20, 5 ],
             "output": 25
         },
         {
-            "inputs": [ "Neg", 1 ],
+            "input": [ "Neg", 1 ],
             "output": -1
         },
         {
-            "inputs": [ "Abs", -4.6 ],
+            "input": [ "Abs", -4.6 ],
             "output": 4.6
         },
         {
-            "inputs": [ "Sqrt", 30.25 ],
+            "input": [ "Sqrt", 30.25 ],
             "output": 5.5
         }
     ],
     "TryParseTests": [
         {
-            "inputs": [ "+" ],
+            "input": "+",
             "output": "Plus"
         },
         {
-            "inputs": [ "-" ],
+            "input": "-",
             "output": "Subtract"
         },
         {
-            "inputs": [ "nEg" ],
+            "input": "nEg",
             "output": "Neg"
         },
         {
-            "inputs": [ "SIN" ],
+            "input": "SIN",
             "output": "Sin"
         }
     ],
     "GetValueTests": [
         {
-            "inputs": [ "e" ],
+            "input": "e",
             "output": 2.718281828
         },
         {
-            "inputs": [ "pi" ],
+            "input": "pi",
             "output": 3.141592654
         }
     ],
     "SYATests": [
         {
-            "inputs": [ "1 + 2" ],
+            "input": "1 + 2",
             "output": "1 2 +"
         },
         {
-            "inputs": [ "4 / 7" ],
+            "input": "4 / 7",
             "output": "4 7 /"
         },
         {
-            "inputs": [ "sin(5 * 2)" ],
+            "input": "sin(5 * 2)",
             "output": "5 2 * sin"
         },
         {
-            "inputs": [ "cos(7 - 2/3)" ],
+            "input": "cos(7 - 2/3)",
             "output": "7 2 3 / - cos"
         },
         {
-            "inputs": [ "5 + cos(2/3) * sin(3/2)" ],
+            "input": "5 + cos(2/3) * sin(3/2)",
             "output": "5 2 3 / cos 3 2 / sin * +"
         },
         {
-            "inputs": [ "neg(5) * cos(5) + tan(pi)/ln(e)" ],
+            "input": "neg(5) * cos(5) + tan(pi)/ln(e)",
             "output": "5 neg 5 cos * pi tan e ln / +"
         }
     ]

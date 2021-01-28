@@ -40,18 +40,25 @@ namespace NumericalMethodsTests
         private static object[] ParseElement(JsonElement element)
         {
             //find the inputs, and then initialise the output array with correct length
-            JsonElement inputs = element.GetProperty("inputs");
-            object[] outObj = new object[1 + inputs.GetArrayLength()];
+            JsonElement inputs = element.GetProperty("input");
+            bool inputIsArray = inputs.ValueKind == JsonValueKind.Array;
+            object[] outObj = new object[inputIsArray ? 1 + inputs.GetArrayLength() : 2];
 
             //set first object to the expected output
             outObj[0] = element.GetProperty("output").Parse();
 
-            //iterate through all inputs, setting correct type
-            //enums are stored as strings, so check if element is a string - if so, parse as enum
-            //otherwise treat as number
-            int i = 1;
-            foreach (var subElem in inputs.EnumerateArray())
-                outObj[i++] = subElem.Parse();
+            //if the input is an array, iterate through it and parse. otherwise just parse singular value
+            if (inputIsArray)
+            {
+                //iterate through all inputs, setting correct type
+                //enums are stored as strings, so check if element is a string - if so, parse as enum
+                //otherwise treat as number
+                int i = 1;
+                foreach (var subElem in inputs.EnumerateArray())
+                    outObj[i++] = subElem.Parse();
+            }
+            else
+                outObj[1] = inputs.Parse();
 
             return outObj;
         }
