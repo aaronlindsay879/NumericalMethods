@@ -106,5 +106,65 @@
             "input": "neg(5) * cos(5) + tan(pi)/ln(e)",
             "output": "5 neg 5 cos * pi tan e ln / +"
         }
+    ],
+    "ComputeTests": [
+        {
+            "input": "1 2 +",
+            "output": 3
+        },
+        {
+            "input": "4 7 /",
+            "output": 0.5714285714
+        },
+        {
+            "input": "5 2 * sin",
+            "output": -0.5440211109
+        },
+        {
+            "input": "7 2 3 / - cos",
+            "output": 0.9987428512
+        },
+        {
+            "input": "5 2 3 / cos 3 2 / sin * +",
+            "output": 5.783918603
+        },
+        {
+            "input": "5 neg 5 cos * pi tan e ln / +",
+            "output": -1.418310927
+        },
+        {
+            "input": [ "5 neg x cos * pi tan e ln / +", 2.5 ],
+            "output": 4.005718078
+        }
+    ],
+    "RPNIntegrationTests": [
+        {
+            "input": "1 + 2",
+            "output": 3
+        },
+        {
+            "input": "4 / 7",
+            "output": 0.5714285714
+        },
+        {
+            "input": "sin(5 * 2)",
+            "output": -0.5440211109
+        },
+        {
+            "input": "cos(7 - 2/3)",
+            "output": 0.9987428512
+        },
+        {
+            "input": "5 + cos(2/3) * sin(3/2)",
+            "output": 5.783918603
+        },
+        {
+            "input": "neg(5) * cos(5) + tan(pi)/ln(e)",
+            "output": -1.418310927
+        },
+        {
+            "input": [ "neg(5) * cos(x) + tan(pi)/ln(e)", 2.5 ],
+            "output": 4.005718078
+        }
     ]
 }
