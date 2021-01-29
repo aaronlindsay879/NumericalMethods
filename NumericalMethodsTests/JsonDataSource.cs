@@ -39,27 +39,12 @@ namespace NumericalMethodsTests
         /// <returns>An object array containing test data</returns>
         private static object[] ParseElement(JsonElement element)
         {
-            //find the inputs, and then initialise the output array with correct length
-            JsonElement inputs = element.GetProperty("input");
-            bool inputIsArray = inputs.ValueKind == JsonValueKind.Array;
-            object[] outObj = new object[inputIsArray ? 1 + inputs.GetArrayLength() : 2];
+            //find the inputs and outputs
+            object[] inputs = element.GetProperty("input").Parse();
+            object[] outputs = element.GetProperty("output").Parse();
 
-            //set first object to the expected output
-            outObj[0] = element.GetProperty("output").Parse();
-
-            //if the input is an array, iterate through it and parse. otherwise just parse singular value
-            if (inputIsArray)
-            {
-                //iterate through all inputs, setting correct type
-                //parse either parses as enum, if valid, or as an object
-                int i = 1;
-                foreach (var subElem in inputs.EnumerateArray())
-                    outObj[i++] = subElem.Parse();
-            }
-            else
-                outObj[1] = inputs.Parse();
-
-            return outObj;
+            //then concat and return
+            return outputs.Concat(inputs).ToArray();
         }
     }
 
@@ -73,6 +58,13 @@ namespace NumericalMethodsTests
         /// <returns>Value of element as object</returns>
         private static object GetObject(this JsonElement element)
         {
+            //if the element is an enum, parse and return
+            if (element.ValueKind == JsonValueKind.String
+                && Enum.IsDefined(typeof(Operators), element.GetString()))
+            {
+                return Enum.Parse(typeof(Operators), element.GetString());
+            }
+
             return element.ValueKind switch
             {
                 JsonValueKind.String => element.GetString(),
@@ -82,23 +74,28 @@ namespace NumericalMethodsTests
         }
 
         /// <summary>
-        /// Parses a JsonElement, converting to an enum if required (otherwise returns as an object0
+        /// Enumerates a json element and applies a given select function
+        /// </summary>
+        /// <param name="element">Element to enumerate+select</param>
+        /// <param name="func">Function to apply</param>
+        /// <returns>Object array</returns>
+        private static object[] EnumerateSelect(this JsonElement element, Func<JsonElement, object> func) =>
+            element.EnumerateArray().Select(func).ToArray();
+
+        /// <summary>
+        /// Parses a JsonElement, converting each element to an enum if required (otherwise returns as an object).
+        /// If the element is an array, all children are parsed individually
         /// </summary>
         /// <param name="element">Element to parse</param>
-        /// <returns>Parsed data</returns>
-        public static object Parse(this JsonElement element)
+        /// <returns>Parsed data in an array</returns>
+        public static object[] Parse(this JsonElement element)
         {
-            if (element.ValueKind == JsonValueKind.String
-                && Enum.IsDefined(typeof(Operators), element.GetString()))
-            {
-                //if the data is a string, and there is an operator with that name, return as operator
-                return Enum.Parse(typeof(Operators), element.GetString());
-            }
-            else
-            {
-                //otherwise return as object
-                return element.GetObject();
-            }
+            //if the element isn't an array, simply return object
+            if (element.ValueKind != JsonValueKind.Array)
+                return new object[] { element.GetObject() };
+
+            //otherwise parse each object
+            return element.EnumerateSelect(x => x.GetObject());
         }
     }
 }
