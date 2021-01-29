@@ -153,11 +153,18 @@ namespace NumericalMethods
             return (workStack.Pop() as Value).Val;
         }
 
+        /// <summary>
+        /// Converts a queue of elements into a string
+        /// </summary>
+        /// <param name="elements">Elements to convert</param>
+        /// <returns>Formatted string</returns>
         public static string ToString(Queue<Element> elements)
         {
+            //copy the elements, and then dequeue first element into string
             Queue<Element> elemCopy = new(elements);
             string output = elemCopy.Dequeue().ToString();
 
+            //then just dequeue sequentially, interlacing spaces
             while (elemCopy.Count > 0)
                 output += $" {elemCopy.Dequeue()}";
 
