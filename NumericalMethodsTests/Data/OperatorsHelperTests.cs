@@ -21,7 +21,7 @@ namespace NumericalMethods.Data.Tests
         [TestMethod, JsonDataSource]
         public void TryParseTests(Operators expected, string input)
         {
-            OperatorsHelper.TryParse(input, out var op);
+            Assert.IsTrue(OperatorsHelper.TryParse(input, out var op));
             Assert.AreEqual(expected, op);
         }
     }
