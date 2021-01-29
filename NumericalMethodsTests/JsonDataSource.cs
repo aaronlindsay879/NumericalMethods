@@ -40,8 +40,8 @@ namespace NumericalMethodsTests
         private static object[] ParseElement(JsonElement element)
         {
             //find the inputs and outputs
-            object[] inputs = element.GetProperty("input").Parse();
-            object[] outputs = element.GetProperty("output").Parse();
+            object[] inputs = element.ParseProperty("input");
+            object[] outputs = element.ParseProperty("output");
 
             //then concat and return
             return outputs.Concat(inputs).ToArray();
@@ -83,13 +83,16 @@ namespace NumericalMethodsTests
             element.EnumerateArray().Select(func).ToArray();
 
         /// <summary>
-        /// Parses a JsonElement, converting each element to an enum if required (otherwise returns as an object).
+        /// Parses a certain child of a JsonElement, converting each element to an enum if required (otherwise returns as an object).
         /// If the element is an array, all children are parsed individually
         /// </summary>
-        /// <param name="element">Element to parse</param>
+        /// <param name="rootElement">Root element to parse</param>
+        /// <param name="propertyName">Property to parse</param>
         /// <returns>Parsed data in an array</returns>
-        public static object[] Parse(this JsonElement element)
+        public static object[] ParseProperty(this JsonElement rootElement, string propertyName)
         {
+            var element = rootElement.GetProperty(propertyName);
+
             //if the element isn't an array, simply return object
             if (element.ValueKind != JsonValueKind.Array)
                 return new object[] { element.GetObject() };
