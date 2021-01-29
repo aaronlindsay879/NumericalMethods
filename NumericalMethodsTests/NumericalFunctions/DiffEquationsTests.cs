@@ -21,5 +21,14 @@ namespace NumericalMethods.NumericalFunctions.Tests
 
             Assert.AreEqual(expected, value, 1e-3);
         }
+
+        [TestMethod, JsonDataSource]
+        public void ImprovedEulersTests(double expected, double step, double iterations, string function, double x, params double[] y)
+        {
+            Queue<Element> calculated = RPN.SYA(function);
+            double value = DiffEquations.ImprovedEulers(calculated, step, x, y.ToList(), (int)iterations);
+
+            Assert.AreEqual(expected, value, 1e-3);
+        }
     }
 }
