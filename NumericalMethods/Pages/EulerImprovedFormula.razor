@@ -1,4 +1,4 @@
-﻿@page "/eulers"
+﻿@page "/eulersImproved"
 @using Data
 @using NumericalFunctions 
 
@@ -39,7 +39,7 @@
     private void Calculate()
     {
         Queue<Element> elements = RPN.SYA(input);
-        double value = DiffEquations.Eulers(elements, step, x, y, numIterations);
+        double value = DiffEquations.ImprovedEulers(elements, step, x, new() { y }, numIterations);
 
         output = $"y({x + numIterations * step}) ≈ {value.ToString()}";
     }
