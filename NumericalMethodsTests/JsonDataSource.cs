@@ -51,8 +51,7 @@ namespace NumericalMethodsTests
             if (inputIsArray)
             {
                 //iterate through all inputs, setting correct type
-                //enums are stored as strings, so check if element is a string - if so, parse as enum
-                //otherwise treat as number
+                //parse either parses as enum, if valid, or as an object
                 int i = 1;
                 foreach (var subElem in inputs.EnumerateArray())
                     outObj[i++] = subElem.Parse();
