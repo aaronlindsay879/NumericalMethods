@@ -19,7 +19,7 @@ namespace NumericalMethods.NumericalFunctions
         public static double? MidOrdinate(Queue<Element> function, double lowerBound, double upperBound, double numOrdinates)
         {
             //if lower bound is higher than upper bound, then it's invalid
-            if (lowerBound > upperBound)
+            if (lowerBound >= upperBound)
                 return null;
 
             //find the distance between ordinates
@@ -46,7 +46,7 @@ namespace NumericalMethods.NumericalFunctions
         public static double? Simpsons(Queue<Element> function, double lowerBound, double upperBound, double numOrdinates)
         {
             //if lower bound is higher than upper bound, then it's invalid
-            if (lowerBound > upperBound)
+            if (lowerBound >= upperBound)
                 return null;
 
             //find the distance between ordinates
